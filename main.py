@@ -8,6 +8,7 @@ from swarm import Plant as Plant
 from swarm import Player as Player
 from swarm import Bullet as Bullet
 from swarm import Controls as Controls
+from swarm import Monster as Monster
 
 try:
     import android
@@ -28,62 +29,7 @@ except ImportError:
 
 
         
-class Monster(pygame.sprite.Sprite):
-    def __init__(self):
-        ## use the line below in all sprite initialization
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("img/monster_small.png").convert_alpha()
-        self.rect = self.image.get_rect()
-        
-        self.safe_surf = pygame.Surface((480, 320))
-        #self.safe_surf.fill((0, 255, 0))
-        #self.safe_surf.set_alpha(60)
-        self.safe_zone = self.safe_surf.get_rect()
-        self.safe_zone.center = (240, 160)
-        
-        self.in_safe = False
-        while not self.in_safe:
-            self.rect.right = random.randrange(480, 800)
-            self.rect.top = random.randrange(-300, 0)
-            if self.rect.colliderect(self.safe_zone):
-                pass
-            else:
-                self.in_safe = True
-                
-        
-        
-        self.speed = 1
-        
-    
-    def update(self, character, level):
-        print(level)
-    ####
-        if level == 2:
-            self.speed = 2
-        if level == 3:
-            self.speed = 2
-        if level == 4:
-            self.speed = 2
-        if level == 5:
-            self.speed = 3
-        if level == 6:
-            self.speed = 3
-        if level == 7:
-            self.speed = 3
-        if level == 8:
-            self.speed = 3
-        
-        self.char = character
-        x = self.char.rect.centerx
-        y = self.char.rect.centery
-        if self.rect.centerx > x:
-            self.rect.centerx -= self.speed
-        if self.rect.centerx < x:
-            self.rect.centerx += self.speed
-        if self.rect.centery > y:
-            self.rect.centery -= self.speed
-        if self.rect.centery < y:
-            self.rect.centery += self.speed
+
     
    
 ## uncrowd algorithm
