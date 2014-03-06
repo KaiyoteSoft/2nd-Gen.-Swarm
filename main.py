@@ -286,28 +286,28 @@ def main():
             if timer.level == 2:
                 superMonster.speed_trigger = 1
                 superMonster2.current_trigger = 0
-                zombie.speed_trigger = 3
-            if timer.level == 3:
                 zombie.speed_trigger = 2
-                superMonster.speed_trigger = 3
-            if timer.level == 4:
+            if timer.level == 3:
                 zombie.speed_trigger = 1
                 superMonster.speed_trigger = 2
+            if timer.level == 4:
+                zombie.speed_trigger = 3
+                superMonster.speed_trigger = 3
             if timer.level == 5:
+                zombie.speed_trigger = 2
+                superMonster.speed_trigger = 2
+            if timer.level == 6:
                 zombie.speed_trigger = 3
                 superMonster.speed_trigger = 4
-            if timer.level == 6:
-                zombie.speed_trigger = 2
-                superMonster.speed_trigger = 4
-                superMonster2.speed_trigger = 4
+                superMonster2.speed_trigger = 3
             if timer.level == 7:
                 zombie.speed_trigger = 2
                 superMonster.speed_trigger = 3
                 superMonster2.speed_trigger = 4
             if timer.level == 8:
-                zombie.speed_trigger = 2
-                superMonster.speed_trigger = 3
-                superMonster2.speed_trigger = 3
+                zombie.speed_trigger = 3
+                superMonster.speed_trigger = 4
+                superMonster2.speed_trigger = 4
                            
 
             
@@ -316,6 +316,7 @@ def main():
             else:
                 superMonster_group.update(character, timer.level)
                 superMonster.current_trigger = 0
+                
             if superMonster2.current_trigger < superMonster2.speed_trigger:
                 superMonster2.current_trigger = superMonster2.current_trigger + 1
             else:
