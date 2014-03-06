@@ -140,14 +140,12 @@ def main():
     bullet_group = pygame.sprite.Group()
     
     ### initialize the monseter
-    zombie = Monster()
-    zombie.speed_trigger = 1
-    zombie.current_trigger = 0
+    zombie = Monster("zombie")
     monster_group = pygame.sprite.Group()
     superMonster_group = pygame.sprite.Group()
     superMonster2_group = pygame.sprite.Group()
     for number in range(0, 8):
-        monster = Monster()
+        monster = Monster("zombie")
         monster_group.add(monster)
     
     
@@ -156,23 +154,14 @@ def main():
     
 ## instantiate the super zombie
     
-    superMonster = Monster()
-    superMonster.image = pygame.image.load("img/SuperMonster_mummy.png")
-    superMonster.image.convert_alpha()
-    superMonster.rect.center = (random.randint(400, 500), random.randint(150, 340))
-    superMonster.speed_trigger = 1
-    superMonster.current_trigger = 0
+    superMonster = Monster("mummy")
     if appear_mummy == True:
         superMonster_group.add(superMonster)
 
     
 ## instantiate the super zombie2 ze CRAB
     
-    superMonster2 = Monster()
-    superMonster2.image = pygame.image.load("img/superMonster_crab.png").convert_alpha()
-    superMonster2.rect.center = (random.randint(400, 500), random.randint(-120, 20))
-    superMonster2.speed_trigger = 1
-    superMonster2.current_trigger = 0
+    superMonster2 = Monster("crab")
     if appear_crab == True:
         superMonster2_group.add(superMonster2)
         
