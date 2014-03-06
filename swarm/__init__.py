@@ -4,3 +4,4 @@ from player import Player
 from bullet import Bullet
 from controls import Controls
 from monster import Monster
+from timer import Timer
