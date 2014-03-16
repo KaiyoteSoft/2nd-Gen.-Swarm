@@ -55,7 +55,9 @@ def main():
     clock = pygame.time.Clock()
 ### timer for the bullets
     # start_clock = pygame.time.get_ticks()
+    screen_start = 0
     start_clock = time.time()
+    
     bullet_empty = False
     
     
@@ -192,8 +194,8 @@ def main():
 
     ## initialize the clock
     timer = Timer()
-    
 
+    
     if android:
         android.init()
         android.map_key(android.KEYCODE_BACK, pygame.K_ESCAPE)
@@ -206,10 +208,12 @@ def main():
     sound = Sound()
     reload = mixer.Sound("snd/reload_final.wav")
     bullet_sound = mixer.Sound("snd/shot_final.wav")
+    roar = mixer.Sound("snd/monster.wav")
     
     
     while gameOn:
 ### start screen
+        
         
         if timer.level == 0:
             for event in pygame.event.get():
@@ -326,18 +330,22 @@ def main():
                 bullet_empty = True
                 reload.play()
     
-                # elapsed_clock = pygame.time.get_ticks()
-                #print("no bullets")
-                # bullet_clock = (int(current_bullet_clock) - int(start_clock)) 
-                # print(bullet_clock)
-            
-            # else:
-                #bullet_clock = 0
+### clock for the interval between levels
+            #if timer.trigger == False and timer.level > 1:
+            #    screen_start = time.time()
+            #timer.elapsed_time = screen_start - time.time()
                 
 ### play bullet sound
             if fire.shot == True:
                 bullet_sound.play()     
                 fire.shot = False
+            
+            if timer.monster == True:
+                print("ROAR")
+                roar.play()
+                timer.monster = False
+                
+            timer.elapsed_time = time.time()
             
 ####### speed check
             if timer.level == 3:
