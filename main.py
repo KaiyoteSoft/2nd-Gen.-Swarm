@@ -1,4 +1,5 @@
 import pygame, sys, random
+import time
 import start_screen
 from pygame.locals import *
 
@@ -10,12 +11,17 @@ from swarm import Bullet as Bullet
 from swarm import Controls as Controls
 from swarm import Monster as Monster
 from swarm import Timer as Timer
+from swarm import Sound as Sound
 
 try:
     import android
 except ImportError:
     android = None
-
+    
+try:
+    import pygame.mixer as mixer
+except ImportError:
+    import android.mixer as mixer
    
 ## uncrowd algorithm
 
@@ -44,8 +50,15 @@ class Health():
 def main():
     
     pygame.init()
-    
+
+
     clock = pygame.time.Clock()
+### timer for the bullets
+    # start_clock = pygame.time.get_ticks()
+    start_clock = time.time()
+    bullet_empty = False
+    
+    
     FPS = 30
     
     ### Load the awesome sunset
@@ -115,6 +128,15 @@ def main():
     no_text = no_font.render("No...", True, DARKRED)
     no_rect = pygame.Rect(320, 100, 150, 60)
     
+#### surface for reloading
+    reload_surface = no_font.render("RELOADING", True, (RED))
+    reload_surface_2 = pygame.Surface((480, 320))
+    reload_surface_2.set_alpha(50)
+    reload_surface_2.fill(RED)
+    reload_rect = reload_surface.get_rect(center = (220, 20))
+    
+    
+    
     ### Create a rectangle for Play Again = Yes
     yes_font = pygame.font.Font("fonts/ASTONISH.TTF", 60)
     yes_text = yes_font.render("YES!!!", True, GREEN)
@@ -172,8 +194,6 @@ def main():
     timer = Timer()
     
 
-    
-    
     if android:
         android.init()
         android.map_key(android.KEYCODE_BACK, pygame.K_ESCAPE)
@@ -181,6 +201,12 @@ def main():
     gameOn = True
     
     startScreen = start_screen.PreGame()
+    
+
+    sound = Sound()
+    reload = mixer.Sound("snd/reload_final.wav")
+    bullet_sound = mixer.Sound("snd/shot_final.wav")
+    
     
     while gameOn:
 ### start screen
@@ -208,6 +234,8 @@ def main():
                     if event.key == K_ESCAPE:
                         pygame.quit()
                         sys.exit()
+                    #if event.key == K_p:
+                    #    reload.play()
                 if event.type == MOUSEBUTTONDOWN:
                     bullet_group = fire.firing(character, bullet_group, windowSurface)
                    # print (fire.counter)
@@ -276,6 +304,40 @@ def main():
             
             ## blits the monster
             #monster_group.update(character, timer.level)
+            
+            
+            
+### check for the number of bullets
+            #bullet_clock = elapsed_clock
+            
+            current_bullet_clock = time.time()
+            elapsed_clock =  int(current_bullet_clock - start_clock)
+            if bullet_empty == True:
+                print(elapsed_clock)
+                if elapsed_clock > 3:
+                    fire.counter = 10
+                    bullet_empty = False
+                    start_clock = 0 
+                    
+    
+            
+            if fire.counter == 0 and bullet_empty == False:
+                start_clock = time.time()
+                bullet_empty = True
+                reload.play()
+    
+                # elapsed_clock = pygame.time.get_ticks()
+                #print("no bullets")
+                # bullet_clock = (int(current_bullet_clock) - int(start_clock)) 
+                # print(bullet_clock)
+            
+            # else:
+                #bullet_clock = 0
+                
+### play bullet sound
+            if fire.shot == True:
+                bullet_sound.play()     
+                fire.shot = False
             
 ####### speed check
             if timer.level == 3:
@@ -381,10 +443,14 @@ def main():
                 windowSurface.blit(no_text, no_rect)
                 windowSurface.blit(yes_text, yes_rect)
                 
-    
+            
+            if bullet_empty == True:
+                windowSurface.blit(reload_surface, (reload_rect))
+                windowSurface.blit(reload_surface_2, (0,0))
             
                 
             pygame.display.update()
             clock.tick(FPS)
+            #bullet_clock.tick(FPS)
         
 main()

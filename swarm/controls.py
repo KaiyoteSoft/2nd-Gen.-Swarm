@@ -1,6 +1,16 @@
 import pygame
 from bullet import Bullet
 
+try:
+    import android
+except ImportError:
+    android = None
+
+try:
+    import pygame.mixer as mixer
+except ImportError:
+    import android.mixer as mixer
+
 class Controls(pygame.sprite.Sprite):
     def __init__(self, control_type):
         pygame.sprite.Sprite.__init__(self)
@@ -16,16 +26,19 @@ class Controls(pygame.sprite.Sprite):
             self.rect.left = 320
         self.button_size = 50
         self.direction = "stop"
+        self.shot = False
 
         
         
 ###### creating fonts / rectangles to blit bullets # to screen
-        self.counter = 250
+        self.counter = 10
         self.RED = (255, 0, 0)
         self.LIME_GREEN = (139, 235, 103)
         self.gameFont = pygame.font.Font("fonts/ASTONISH.TTF", 20)
         self.bullet_counter_image = self.gameFont.render("Bullets:" + str(self.counter), True, self.RED)
         self.bullet_counter_rect = pygame.Rect(150, 5, 60, 23)
+        
+        
         
 
     
@@ -91,6 +104,7 @@ class Controls(pygame.sprite.Sprite):
             bullet = Bullet(direction, character)
             bullet_group.add(bullet)
             self.counter = self.counter - 1
+            self.shot = True 
             #print (self.counter)
         
         self.rect_left_leftedge = self.rect.left 
@@ -103,6 +117,7 @@ class Controls(pygame.sprite.Sprite):
             bullet = Bullet(direction, character)
             bullet_group.add(bullet)
             self.counter = self.counter - 1
+            self.shot = True 
             
         self.rect_down_leftedge = self.rect.left + self.button_size
         self.rect_down_topedge = self.rect.top + self.button_size + self.button_size
@@ -114,6 +129,7 @@ class Controls(pygame.sprite.Sprite):
             bullet = Bullet(direction, character)
             bullet_group.add(bullet)
             self.counter = self.counter - 1
+            self.shot = True 
             
         self.rect_up_leftedge = self.rect.left + self.button_size
         self.rect_up_topedge = self.rect.top 
@@ -125,6 +141,7 @@ class Controls(pygame.sprite.Sprite):
             bullet = Bullet(direction, character)
             bullet_group.add(bullet)
             self.counter = self.counter - 1
+            self.shot = True 
         
         
         
@@ -139,6 +156,7 @@ class Controls(pygame.sprite.Sprite):
             bullet = Bullet(direction, character)
             bullet_group.add(bullet)
             self.counter = self.counter - 1
+            self.shot = True 
             
         self.rect_BottomLeftDiag_leftedge = self.rect.left
         self.rect_BottomLeftDiag_topedge = self.rect.top + self.button_size + self.button_size
@@ -150,6 +168,7 @@ class Controls(pygame.sprite.Sprite):
             bullet = Bullet(direction, character)
             bullet_group.add(bullet)
             self.counter = self.counter - 1
+            self.shot = True 
             
         self.rect_TopRightDiag_leftedge = self.rect.right - self.button_size
         self.rect_TopRightDiag_topedge = self.rect.top
@@ -161,6 +180,7 @@ class Controls(pygame.sprite.Sprite):
             bullet = Bullet(direction, character)
             bullet_group.add(bullet)
             self.counter = self.counter - 1
+            self.shot = True 
             
         self.rect_BottomRightDiag_leftedge = self.rect.right - self.button_size
         self.rect_BottomRightDiag_topedge = self.rect.top + self.button_size + self.button_size
@@ -172,6 +192,10 @@ class Controls(pygame.sprite.Sprite):
             bullet = Bullet(direction, character)
             bullet_group.add(bullet)
             self.counter = self.counter - 1
+            self.shot = True 
+            
+        #if self.counter == 0:
+        #    self.elapsed_clock = pygame.time.get_ticks()
             
         return(bullet_group)
             
