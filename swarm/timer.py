@@ -16,6 +16,7 @@ class Timer():
         self.GreenYellow = (160, 195, 7)
         self.initTimer()
         self.monster = False
+        self.mummy_death = False
         
     def initTimer(self):
        self.gameFont = pygame.font.Font("fonts/ASTONISH.TTF", 16)
@@ -43,28 +44,36 @@ class Timer():
                self.superMonster2_group, self.character, self.direction, self.forest_group)
     
     
-
-### if the length of the monster group is zero then go to next level   
+    
+        ### if the length of the monster group is zero then go to next level   
     def CalcLevel(self):
-        if len(self.monster_group) == 0 and self.level == 7:
+        superMonster = Monster("mummy")
+        superMonster2 = Monster("crab")
+        
+        if len(self.monster_group) == 0 and self.level == 7 and self.mummy_death == True:
             self.level = 8
             self.trigger = False
+            self.mummy_death = False
             
-        if len(self.monster_group) == 0 and self.level == 6:
+        if len(self.monster_group) == 0 and self.level == 6 and self.mummy_death == True:
             self.level = 7
             self.trigger = False
+            self.mummy_death = False
             
-        if len(self.monster_group) == 0 and self.level == 5:
+        if len(self.monster_group) == 0 and self.level == 5 and self.mummy_death == True:
             self.level = 6
             self.trigger = False
+            self.mummy_death = False
         
-        if len(self.monster_group) == 0 and self.level == 4:
+        if len(self.monster_group) == 0 and self.level == 4 and self.mummy_death == True:
             self.level = 5
             self.trigger = False
+            self.mummy_death = False
             
-        if len(self.monster_group) == 0 and self.level == 3:
+        if len(self.monster_group) == 0 and self.level == 3 and self.mummy_death == True:
             self.level = 4
             self.trigger = False
+            self.mummy_death = False
             
         if len(self.monster_group) == 0 and self.level == 2:
             self.level = 3
@@ -74,6 +83,7 @@ class Timer():
             self.level = 2
             self.trigger = False
             
+    
         
             
     def createMonsters(self):
@@ -100,8 +110,8 @@ class Timer():
             self.direction = "stop"
             
             ## blits the super Monsters at the beginning of each level
-            superMonster2 = Monster()
-            superMonster2.image = pygame.image.load("img/superMonster_crab.png").convert_alpha()
+            superMonster2 = Monster("crab")
+            #superMonster2.image = pygame.image.load("img/superMonster_crab.png").convert_alpha()
             superMonster2.rect.center = (random.randint(400, 500), random.randint(-120, 20))
             superMonster2.speed_trigger = 1
             superMonster2.current_trigger = 0
@@ -109,9 +119,9 @@ class Timer():
             if self.level >= 6:
                 self.superMonster2_group.add(superMonster2)
             
-            superMonster = Monster()
-            superMonster.image = pygame.image.load("img/SuperMonster_mummy.png")
-            superMonster.image.convert_alpha()
+            superMonster = Monster("mummy")
+            #superMonster.image = pygame.image.load("img/SuperMonster_mummy.png")
+            #superMonster.image.convert_alpha()
             superMonster.rect.center = (random.randint(400, 500), random.randint(150, 340))
             superMonster.speed_trigger = 1
             superMonster.current_trigger = 0
@@ -120,7 +130,7 @@ class Timer():
                 self.superMonster_group.add(superMonster)
                 
         ### counter for the monsters speed
-            zombie = Monster()
+            zombie = Monster("zombie")
             zombie.speed_trigger = 2
             zombie.current_trigger = 0
             
@@ -312,10 +322,12 @@ class Timer():
             print ("--------------------------------")
             
             for number in range(0, self.monster_num):
-                monster = Monster()
+                monster = Monster("zombie")
                 self.monster_group.add(monster)
                 
                 
             self.trigger = True
+            
+
             
             

@@ -2,7 +2,7 @@ import pygame
 import random
 
 class Monster(pygame.sprite.Sprite):
-    def __init__(self, monster_type = "zombie"):
+    def __init__(self, monster_type):
         ## use the line below in all sprite initialization
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("img/monster_small.png").convert_alpha()
@@ -16,6 +16,8 @@ class Monster(pygame.sprite.Sprite):
             self.rect.center = (random.randint(400, 500), random.randint(150, 340))
             self.speed_trigger = 1
             self.current_trigger = 0
+            self.health = 10
+            #self.death = 0
         
         if monster_type == "crab":
             self.image = pygame.image.load("img/superMonster_crab.png").convert_alpha()

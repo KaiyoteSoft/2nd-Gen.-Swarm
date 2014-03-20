@@ -206,11 +206,7 @@ def main():
     
 
     sound = Sound()
-    reload = mixer.Sound("snd/reload_final.wav")
-    bullet_sound = mixer.Sound("snd/shot_final.wav")
-    roar = mixer.Sound("snd/monster.wav")
-    
-    
+
     while gameOn:
 ### start screen
         
@@ -317,7 +313,7 @@ def main():
             current_bullet_clock = time.time()
             elapsed_clock =  int(current_bullet_clock - start_clock)
             if bullet_empty == True:
-                print(elapsed_clock)
+                #print(elapsed_clock)
                 if elapsed_clock > 3:
                     fire.counter = 10
                     bullet_empty = False
@@ -328,7 +324,7 @@ def main():
             if fire.counter == 0 and bullet_empty == False:
                 start_clock = time.time()
                 bullet_empty = True
-                reload.play()
+                sound.reload.play()
     
 ### clock for the interval between levels
             #if timer.trigger == False and timer.level > 1:
@@ -337,12 +333,12 @@ def main():
                 
 ### play bullet sound
             if fire.shot == True:
-                bullet_sound.play()     
+                sound.bullet_sound.play()     
                 fire.shot = False
             
             if timer.monster == True:
-                print("ROAR")
-                roar.play()
+                #print("ROAR")
+                sound.roar.play()
                 timer.monster = False
                 
             timer.elapsed_time = time.time()
@@ -434,7 +430,21 @@ def main():
             
             ## collision detection for the monster and bullet
             pygame.sprite.groupcollide(bullet_group, monster_group, True, True)
-            pygame.sprite.groupcollide(bullet_group, superMonster_group, True, False)
+            mummy = pygame.sprite.groupcollide(bullet_group, superMonster_group, True, False)
+            
+### mummy health
+            if len(mummy) > 0:
+                print ("HIT")
+                superMonster.health = superMonster.health - 1
+                if superMonster.health <= 0:
+                    superMonster_group.empty()
+                    timer.mummy_death = True
+                    superMonster = Monster("mummy")
+                    superMonster_group.add(superMonster)
+                    
+                    
+        
+        
             pygame.sprite.groupcollide(bullet_group, forest_group, True, False)
             pygame.sprite.groupcollide(bullet_group, superMonster2_group, True, False)
                 
